@@ -1,2 +1,2 @@
-## Communicating
-still thinking
+# ComboCommunicating
+A chat app for peers still thinking

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Tab, Nav, Button }from 'react-bootstrap'
+import {Tab, Nav, Button, Modal }from 'react-bootstrap'
 import Chats from './Chats'
 import Contacts from './Contacts'
 const CHATS_KEY = 'chats'
@@ -47,6 +47,9 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
                 New {chatsOpen ? 'Chat' : 'Contact'}
             </Button>
         </Tab.Container>
+        <Modal>
+            {chatsOpen ? <NewChatModal/> : <NewContactModal/>}
+        </Modal>
     </div>
   )
 }

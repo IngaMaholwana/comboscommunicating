@@ -1,9 +1,9 @@
 import React from 'react'
 
+import Navbar from './Navbar'
+
 export default function Dashboard({id}) {
   return (
-    <div>
-        {id}
-    </div>
+    <Navbar id={id} />
   )
 }

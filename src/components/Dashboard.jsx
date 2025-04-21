@@ -4,6 +4,10 @@ import Navbar from './Navbar'
 
 export default function Dashboard({id}) {
   return (
-    <Navbar id={id} />
+    <div className='d-flex' style={{  height: '100vh'}}>
+        <Navbar id={id} />
+
+
+    </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {Tab, Nav}from 'react-bootstrap'
+import Chats from './Chats'
 
 const CHATS_KEY = 'chats'
 const CONTACTS_KEY = 'contacts'
@@ -24,12 +25,12 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
                     <Nav.Link eventKey="fourth">Disabled</Nav.Link>
                 </Nav.Item>
             </Nav>
-            <Tab.Content className="border border-top-0">
+            <Tab.Content>
                 <Tab.Pane eventKey={CHATS_KEY}>
                     <Chats/>
                 </Tab.Pane>
-                <Tab.Pane eventKey="contacts">
-                    <p>contacts</p>
+                <Tab.Pane eventKey={CONTACTS_KEY}>
+                    <Contacts/>
                 </Tab.Pane>
                 <Tab.Pane eventKey="third">
                     <p>Groups</p>

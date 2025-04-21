@@ -26,7 +26,7 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
             </Nav>
             <Tab.Content className="border border-top-0">
                 <Tab.Pane eventKey={CHATS_KEY}>
-                    <p>chats</p>
+                    <Chats/>
                 </Tab.Pane>
                 <Tab.Pane eventKey="contacts">
                     <p>contacts</p>

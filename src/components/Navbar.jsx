@@ -2,12 +2,22 @@ import React, {useState} from 'react'
 import {Tab, Nav, Button, Modal }from 'react-bootstrap'
 import Chats from './Chats'
 import Contacts from './Contacts'
+import NewChatModal from './NewChatModal'
+import NewContactModal from './NewContactModal'
+
+
 const CHATS_KEY = 'chats'
 const CONTACTS_KEY = 'contacts'
 
 export default function Navbar({ id }) { //esentially id acts like a cell numba to share with friends
     const [activeKey, setActiveKey] = React.useState(CHATS_KEY)
+    const [modalOpen, setModalOpen] = useState(false)
     const chatsOpen = activeKey === CHATS_KEY   
+
+
+    function closeModal() {
+        setModalOpen(false)
+    }
 
     return (
     <div style={{width: '350px'}} className='d-flex flex-column'>
@@ -43,12 +53,15 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
             <div className='p-2 boarder-top boarder-right small'>
                 Your Id: <span className='text-muted'>{id}</span>  
             </div>
-            <Button className='rounded-0'>
+            <Button onClick={() => setModalOpen(true)} className='rounded-0'>
                 New {chatsOpen ? 'Chat' : 'Contact'}
             </Button>
         </Tab.Container>
-        <Modal>
-            {chatsOpen ? <NewChatModal/> : <NewContactModal/>}
+        <Modal show={modalOpen} onHide={closeModal}>
+            {chatsOpen ? 
+            <NewChatModal closeModal={closeModal} /> : 
+            <NewContactModal closeModal={closeModal} />
+            }
         </Modal>
     </div>
   )

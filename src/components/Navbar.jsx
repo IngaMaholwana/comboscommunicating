@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Tab, Nav}from 'react-bootstrap'
 
 const CHATS_KEY = 'chats'
@@ -9,7 +9,7 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
     
     return (
     <div style={{width: '350px'}} className='d-flex flex-column'>
-        <Tab.Container activeKey={activeKey} >
+        <Tab.Container activeKey={activeKey} onSelect={setActiveKey} >
             <Nav variant="tabs" className="justify-content-center">
                 <Nav.Item>
                     <Nav.Link eventKey={CHATS_KEY}>chats</Nav.Link>
@@ -24,6 +24,20 @@ export default function Navbar({ id }) { //esentially id acts like a cell numba 
                     <Nav.Link eventKey="fourth">Disabled</Nav.Link>
                 </Nav.Item>
             </Nav>
+            <Tab.Content className="border border-top-0">
+                <Tab.Pane eventKey={CHATS_KEY}>
+                    <p>chats</p>
+                </Tab.Pane>
+                <Tab.Pane eventKey="contacts">
+                    <p>contacts</p>
+                </Tab.Pane>
+                <Tab.Pane eventKey="third">
+                    <p>Groups</p>
+                </Tab.Pane>
+                <Tab.Pane eventKey="fourth">
+                    <p>Not idead yet</p>
+                </Tab.Pane>
+            </Tab.Content>
         </Tab.Container>
     </div>
   )

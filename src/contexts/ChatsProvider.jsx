@@ -20,6 +20,10 @@ export function ChatsProvider({ children }) {
     })
   }
 
+  function addMessageToChat({recipients, text, sender }){
+    
+  }
+
   const formattedChats = chats.map((chat, index) => {
     const recipients = chat.recipients.map(recipient => {
       const contact = contacts.find(contact => {

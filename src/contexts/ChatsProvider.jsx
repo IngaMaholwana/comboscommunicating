@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext, useState } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { useContacts } from './ContactsProvider'
 
@@ -8,10 +8,10 @@ export function useChats() {
   return useContext(ChatsContext)
 }
 
-export function ChatsProvider({children }) {
+export function ChatsProvider({ children }) {
 
   const [chats, setChats] = useLocalStorage('chats',[])
-
+  const [selectedChatIndex, setSelectedChatIndex] = useState(0)
   const { contacts } = useContacts()
   
   function createChat(recipients) {
@@ -20,7 +20,7 @@ export function ChatsProvider({children }) {
     })
   }
 
-  const formattedChats = chats.map(chat => {
+  const formattedChats = chats.map((chat, index) => {
     const recipients = chat.recipients.map(recipient => {
       const contact = contacts.find(contact => {
         return contact.id === recipient
@@ -28,11 +28,14 @@ export function ChatsProvider({children }) {
       const name = (contact && contact.name) || recipient
       return { id: recipient, name }
     })
-    return { ...chat, recipients }
+    const selected = index === selectedChatIndex
+    return { ...chat, recipients, selected }
   })
 
   const value = {
     chats: formattedChats,
+    selectedChat: formattedChats[selectedChatIndex],
+    selectChatIndex: setSelectedChatIndex,
     createChat
   }
 

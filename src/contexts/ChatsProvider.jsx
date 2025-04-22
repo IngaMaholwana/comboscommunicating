@@ -62,8 +62,18 @@ export function ChatsProvider({ id, children }) {
       const name = (contact && contact.name) || recipient
       return { id: recipient, name }
     })
+    // see the human formatedd code who sent who recieve
+    const messages = chat.messages.map(message => {
+      const contact = contacts.find(contact => {
+        return contact.id === message.sender
+      })
+      const name = (contact && contact.name) || message.sender
+      const fromMe = id === message.sender
+      return { ...message, senderName: name, fromMe }
+    })
+    
     const selected = index === selectedChatIndex
-    return { ...chat, recipients, selected }
+    return { ...chat, messages, recipients, selected }
   })
 
   const value = {

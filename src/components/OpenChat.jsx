@@ -1,10 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Form, InputGroup, Button } from 'react-bootstrap'
 import { useChats } from '../contexts/ChatsProvider'
 
 export default function OpenChat() {
-  const [text, setText] = useState('')
-  const lastMessageRef = useRef()
+  const [text, setText] = useState('') 
+  const setRef = useCallback(node => {
+    if (node) {
+      node.scrollIntoView({ smooth: true})
+    }
+  }, [])
   const { sendMessage, selectedChat } = useChats()
 
   function handleSubmit(e) {
@@ -17,12 +21,6 @@ export default function OpenChat() {
     setText('')
   }
 
-  useEffect(() => {
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({smooth: true})
-    }
-  },)
-
   return (
     <div className='d-flex flex-column flex-grow-1'>
       <div className='flex-grow-1 overflow-auto'>
@@ -31,7 +29,7 @@ export default function OpenChat() {
             const lastMessage = selectedChat.messages.length - 1 === index
             return (
               <div
-                ref={lastMessage ? lastMessageRef: null }
+                ref={lastMessage ? setRef: null }
                 key={index}
                 className={`my-1 d-flex flex-column ${message.fromMe ? 'align-self-end align-items-end' : ''}`}
               >

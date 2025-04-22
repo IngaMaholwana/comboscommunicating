@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { useContacts } from './ContactsProvider'
 import { Socket } from 'socket.io-client'
@@ -23,7 +23,7 @@ export function ChatsProvider({ id, children }) {
     })
   }
 
-  function addMessageToChat({recipients, text, sender }){
+  const addMessageToChat = useCallback(({recipients, text, sender }) => {
     setChats(prevChats => {
       let madeChange = false
       const newMessage = { sender, text }
@@ -51,7 +51,14 @@ export function ChatsProvider({ id, children }) {
 
      })
 
-  }
+  }, [setChats])
+
+  useEffect(() => {
+    if (socket == null) return
+    socket.on('receive-message', addMessageToChat)
+
+    return () => socket.off('receive-message')
+  }, [socket, addMessageToChat])
 
   function sendMessage(recipients, text){
     socket.emit('send-message', {recipients, text})

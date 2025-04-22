@@ -4,7 +4,7 @@ import { useChats } from '../contexts/ChatsProvider'
 
 export default function OpenChat() {
   const [text, setText ] = useState('')
-  const {sendMessage, selectedChat } = useChats
+  const {sendMessage, selectedChat } = useChats()
   function handleSubmit(e){
     e.preventDefault()
 

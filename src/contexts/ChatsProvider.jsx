@@ -8,7 +8,7 @@ export function useChats() {
   return useContext(ChatsContext)
 }
 
-export function ChatsProvider({ children }) {
+export function ChatsProvider({ id, children }) {
 
   const [chats, setChats] = useLocalStorage('chats',[])
   const [selectedChatIndex, setSelectedChatIndex] = useState(0)
@@ -21,7 +21,37 @@ export function ChatsProvider({ children }) {
   }
 
   function addMessageToChat({recipients, text, sender }){
-    
+    setChats(prevChats => {
+      let madeChange = false
+      const newMessage = { sender, text }
+      const newChats = prevChats.map(
+        chat => {
+          if( arrayEquality(chat.recipients, recipients) ){
+            madeChange = true
+            return {
+              ...chat,messages: [...chat.messages, newMessage]
+            }
+          }
+          return chat
+
+        }
+
+      )
+
+      if (madeChange){
+        return newChats
+
+      } else {
+        return [...prevChats, {recipients, messages: [newMessage] }]
+      }
+
+
+     })
+
+  }
+
+  function sendMessage(recipients, text){
+    addMessageToChat({recipients, text, sender: id})
   }
 
   const formattedChats = chats.map((chat, index) => {
@@ -39,6 +69,7 @@ export function ChatsProvider({ children }) {
   const value = {
     chats: formattedChats,
     selectedChat: formattedChats[selectedChatIndex],
+    sendMessage,
     selectChatIndex: setSelectedChatIndex,
     createChat
   }
@@ -49,3 +80,15 @@ export function ChatsProvider({ children }) {
     </ChatsContext.Provider>
   )
 }
+
+
+function arrayEquality(a, b) {
+  if (a.length !== b.length) return false
+
+  a.sort()
+  b.sort()
+
+  return a.every((element, index) => {
+    return element === b[index]
+  })
+} 

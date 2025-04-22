@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { useContacts } from './ContactsProvider'
+import { Socket } from 'socket.io-client'
+import { useSocket } from './SocketProvider'
 
 const ChatsContext = React.createContext()
 
@@ -13,6 +15,7 @@ export function ChatsProvider({ id, children }) {
   const [chats, setChats] = useLocalStorage('chats',[])
   const [selectedChatIndex, setSelectedChatIndex] = useState(0)
   const { contacts } = useContacts()
+  const socket = useSocket()
   
   function createChat(recipients) {
     setChats(prevChats => {
@@ -51,6 +54,7 @@ export function ChatsProvider({ id, children }) {
   }
 
   function sendMessage(recipients, text){
+    socket.emit('send-message', {recipients, text})
     addMessageToChat({recipients, text, sender: id})
   }
 
